@@ -1,5 +1,9 @@
+import Trip from '../trip/trip';
+
 function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+  return (
+    <Trip />
+  );
 }
 
 export default App;
