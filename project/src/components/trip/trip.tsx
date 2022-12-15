@@ -1,4 +1,5 @@
 import React from 'react';
+import Filter from '../filter/filter';
 import TripEvents from '../trip-events/trip-events';
 
 function Trip(): JSX.Element {
@@ -12,7 +13,8 @@ function Trip(): JSX.Element {
             <div className="trip-main__trip-controls  trip-controls">
               <div className="trip-controls__filters">
                 <h2 className="visually-hidden">Filter events</h2>
-                {/* Фильтры */}
+
+                <Filter />
               </div>
             </div>
 
