@@ -13,4 +13,6 @@ export type Point = {
   type: typeof TRAVEL_TYPES[number];
 }
 
+export type Points = Point[];
+
 export type LocalPoint = Omit<Point, 'id'>;

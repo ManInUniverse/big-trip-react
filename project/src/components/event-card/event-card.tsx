@@ -1,4 +1,4 @@
-function Event(): JSX.Element {
+function EventCard(): JSX.Element {
   return (
     <li className="trip-events__item">
       <div className="event">
@@ -40,4 +40,4 @@ function Event(): JSX.Element {
   );
 }
 
-export default Event;
+export default EventCard;

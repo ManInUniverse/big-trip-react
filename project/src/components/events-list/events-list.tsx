@@ -1,10 +1,10 @@
-import Event from '../event/event';
+import EventCard from '../event-card/event-card';
 
 function EventsList(): JSX.Element {
   return (
     <ul className="trip-events__list">
 
-      <Event />
+      <EventCard />
     </ul>
   );
 }
