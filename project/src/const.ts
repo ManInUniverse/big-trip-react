@@ -10,6 +10,11 @@ export enum SortingMode {
   Price = 'sort-price',
 }
 
+export enum EventCardMode {
+  Default = 'default',
+  Edit = 'edit',
+}
+
 export const TRAVEL_TYPES = [
   'taxi',
   'bus',

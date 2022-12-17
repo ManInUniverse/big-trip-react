@@ -2,14 +2,26 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { getDestinations, getOffersByType } from '../../store/selectors';
 import { Point } from '../../types/point';
 import { formatDateTime, getDestinationNameById, getPointDuration, getSelectedOffers } from '../../utils';
+import EditEventForm from '../edit-event-form/edit-event-form';
 
 type EventCardProps = {
   point: Point;
+  isEditing: boolean;
+  onEditButtonClick: () => void;
+  onCloseEditButtonClick: () => void;
 }
 
 function EventCard(props: EventCardProps): JSX.Element {
   const destinations = useAppSelector(getDestinations);
   const offersByType = useAppSelector(getOffersByType);
+
+  if (props.isEditing) {
+    return (
+      <li className="trip-events__item">
+        <EditEventForm onCloseButtonClick={ props.onCloseEditButtonClick } />
+      </li>
+    );
+  }
 
   return (
     <li className="trip-events__item">
@@ -48,7 +60,7 @@ function EventCard(props: EventCardProps): JSX.Element {
             <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
           </svg>
         </button>
-        <button className="event__rollup-btn" type="button">
+        <button onClick={ props.onEditButtonClick } className="event__rollup-btn" type="button">
           <span className="visually-hidden">Open event</span>
         </button>
       </div>

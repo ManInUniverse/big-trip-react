@@ -1,4 +1,5 @@
-import { Points } from '../../types/point';
+import { useState } from 'react';
+import { Point, Points } from '../../types/point';
 import EventCard from '../event-card/event-card';
 
 type EventsListProps = {
@@ -6,10 +7,22 @@ type EventsListProps = {
 }
 
 function EventsList(props: EventsListProps): JSX.Element {
+  const [activeEventCard, setActiveEventCard] = useState<Point['id'] | null>(null);
+
   return (
     <ul className="trip-events__list">
       {
-        props.points.map((point) => <EventCard point={ point } key={ point.id } />)
+        props.points.map((point) =>
+          (
+            <EventCard
+              isEditing={ point.id === activeEventCard }
+              onEditButtonClick={ () => setActiveEventCard(point.id) }
+              onCloseEditButtonClick= { () => setActiveEventCard(null) }
+              point={ point }
+              key={ point.id }
+            />
+          )
+        )
       }
     </ul>
   );
