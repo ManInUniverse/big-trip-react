@@ -8,4 +8,6 @@ export type Offer = {
 
 export type Offers = Offer[];
 
-export type OffersByType = Array<{ type: typeof TRAVEL_TYPES[number]; offers: Offers }>
+export type OffersByType = Array<{ type: TravelType; offers: Offers }>
+
+export type TravelType = typeof TRAVEL_TYPES[number];

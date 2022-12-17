@@ -9,6 +9,7 @@ export type State = ReturnType<typeof store.getState>;
 
 export type InitialState = {
   isLoading: boolean;
+  hasError: boolean;
   destinations: Destinations;
   offersByType: OffersByType;
   points: Points;

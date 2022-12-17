@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 import { FilterMode, SortingMode } from './const';
+import { Destinations } from './types/destination';
+import { OffersByType, TravelType } from './types/offer';
 import { Point, Points } from './types/point';
 
 enum TimeInMinutes {
@@ -67,4 +69,28 @@ export const getPointDuration = (dateFrom: Point['dateFrom'], dateTo: Point['dat
     const minutes = Math.trunc(timeDifference % TimeInMinutes.Hour);
     return `${ days }D ${ hours }H ${ minutes }M`;
   }
+};
+
+export const getDestinationNameById = (
+  destinations: Destinations,
+  destinationId: Point['destination']
+) => {
+  const destinationName = destinations.find((destination) => destination.id === destinationId)?.name;
+  if (!destinationName) {
+    return 'unknown';
+  }
+  return destinationName;
+};
+
+export const getSelectedOffers = (
+  offersByType: OffersByType,
+  type: TravelType,
+  offers: Point['offers']
+) => {
+  const offersByCurrentType = offersByType.find((element) => element.type === type)?.offers;
+  const selectedOffers = offersByCurrentType?.filter((element) => offers.includes(element.id));
+  if (!selectedOffers) {
+    return [];
+  }
+  return selectedOffers;
 };

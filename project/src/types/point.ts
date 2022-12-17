@@ -1,6 +1,5 @@
-import { TRAVEL_TYPES } from '../const';
 import { Destination } from './destination';
-import { Offer } from './offer';
+import { Offer, TravelType } from './offer';
 
 export type Point = {
   basePrice: number;
@@ -10,7 +9,7 @@ export type Point = {
   id: string;
   isFavorite: boolean;
   offers: Array<Offer['id']>;
-  type: typeof TRAVEL_TYPES[number];
+  type: TravelType;
 }
 
 export type Points = Point[];
@@ -25,7 +24,7 @@ export type PointFromServer = {
   id: string;
   is_favorite: boolean;
   offers: Array<Offer['id']>;
-  type: typeof TRAVEL_TYPES[number];
+  type: TravelType;
 };
 
 export type PointsFromServer = PointFromServer[];
