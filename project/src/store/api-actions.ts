@@ -1,10 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { APIRoute } from '../const';
 import { AppDispatch, State } from '../types/store';
 import { Destinations } from '../types/destination';
 import { OffersByType } from '../types/offer';
-import { LocalPoint, Point, Points } from '../types/point';
+import { NewPoint, Point, Points, PointsFromServer } from '../types/point';
+import { APIRoute } from '../const';
+import { adaptPointToClient } from './adapters';
 
 type AppThunkApiConfig = {
   dispatch: AppDispatch;
@@ -31,12 +32,12 @@ export const fetchOffersByTypeAction = createAsyncThunk<OffersByType, undefined,
 export const fetchPointsAction = createAsyncThunk<Points, undefined, AppThunkApiConfig>(
   'fetchPoints',
   async (_arg, { extra: api }) => {
-    const response = await api.get<Points>(APIRoute.Points);
-    return response.data;
+    const response = await api.get<PointsFromServer>(APIRoute.Points);
+    return response.data.map(adaptPointToClient);
   }
 );
 
-export const createNewPointAction = createAsyncThunk<Point, LocalPoint, AppThunkApiConfig>(
+export const createNewPointAction = createAsyncThunk<Point, NewPoint, AppThunkApiConfig>(
   'createNewPoint',
   async (_arg, { extra: api }) => {
     const response = await api.post<Point>(APIRoute.Points);

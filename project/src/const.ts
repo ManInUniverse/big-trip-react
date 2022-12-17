@@ -1,3 +1,15 @@
+export enum FilterMode {
+  Everything = 'everything',
+  Future = 'future',
+  Past = 'past',
+}
+
+export enum SortingMode {
+  Day = 'sort-day',
+  Time = 'sort-time',
+  Price = 'sort-price',
+}
+
 export const TRAVEL_TYPES = [
   'taxi',
   'bus',

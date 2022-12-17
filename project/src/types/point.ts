@@ -15,4 +15,19 @@ export type Point = {
 
 export type Points = Point[];
 
-export type LocalPoint = Omit<Point, 'id'>;
+export type NewPoint = Omit<Point, 'id'>;
+
+export type PointFromServer = {
+  base_price: number;
+  date_from: string;
+  date_to: string;
+  destination: Destination['id'];
+  id: string;
+  is_favorite: boolean;
+  offers: Array<Offer['id']>;
+  type: typeof TRAVEL_TYPES[number];
+};
+
+export type PointsFromServer = PointFromServer[];
+
+export type NewPointToServer = Omit<PointFromServer, 'id'>;

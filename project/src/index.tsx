@@ -7,6 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import { fetchDestinationsAction, fetchOffersByTypeAction, fetchPointsAction } from './store/api-actions';
+
+store.dispatch(fetchDestinationsAction());
+store.dispatch(fetchOffersByTypeAction());
+store.dispatch(fetchPointsAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

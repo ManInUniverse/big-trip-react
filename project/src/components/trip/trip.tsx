@@ -1,10 +1,17 @@
-import React from 'react';
+import { useState } from 'react';
+import { FilterMode } from '../../const';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { getPoints } from '../../store/selectors';
+import { filterPoints } from '../../utils';
 import Filter from '../filter/filter';
 import TripEvents from '../trip-events/trip-events';
 
 function Trip(): JSX.Element {
+  const [activeTripFilter, setActiveTripFilter] = useState(FilterMode.Everything);
+  const points = useAppSelector(getPoints);
+
   return (
-    <React.Fragment>
+    <>
       <header className="page-header">
         <div className="page-body__container  page-header__container">
           <img className="page-header__logo" src="img/logo.png" width="42" height="42" alt="Trip logo"></img>
@@ -14,7 +21,7 @@ function Trip(): JSX.Element {
               <div className="trip-controls__filters">
                 <h2 className="visually-hidden">Filter events</h2>
 
-                <Filter />
+                <Filter activeFilter={ activeTripFilter } onFilterChange={ setActiveTripFilter } />
               </div>
             </div>
 
@@ -25,10 +32,10 @@ function Trip(): JSX.Element {
       <main className="page-body__page-main  page-main">
         <div className="page-body__container">
 
-          <TripEvents />
+          <TripEvents points={ filterPoints(points, activeTripFilter) } />
         </div>
       </main>
-    </React.Fragment>
+    </>
   );
 }
 
