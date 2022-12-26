@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import { FilterMode, SortingMode } from './const';
+import { FilterMode, SortingMode, TravelType } from './const';
 import { Destinations } from './types/destination';
-import { OffersByType, TravelType } from './types/offer';
+import { OffersByType } from './types/offer';
 import { Point, Points } from './types/point';
 
 enum TimeInMinutes {

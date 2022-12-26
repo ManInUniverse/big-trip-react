@@ -1,5 +1,6 @@
+import { TravelType } from '../const';
 import { Destination } from './destination';
-import { Offer, TravelType } from './offer';
+import { Offer } from './offer';
 
 export type Point = {
   basePrice: number;

@@ -18,7 +18,7 @@ function EventCard(props: EventCardProps): JSX.Element {
   if (props.isEditing) {
     return (
       <li className="trip-events__item">
-        <EditEventForm onCloseButtonClick={ props.onCloseEditButtonClick } />
+        <EditEventForm point={ props.point } onCloseButtonClick={ props.onCloseEditButtonClick } />
       </li>
     );
   }

@@ -15,17 +15,17 @@ export enum EventCardMode {
   Edit = 'edit',
 }
 
-export const TRAVEL_TYPES = [
-  'taxi',
-  'bus',
-  'train',
-  'ship',
-  'drive',
-  'flight',
-  'check-in',
-  'sightseeing',
-  'restaurant'
-] as const;
+export enum TravelType {
+  Taxi = 'taxi',
+  Bus = 'bus',
+  Train = 'train',
+  Ship = 'ship',
+  Drive = 'drive',
+  Flight = 'flight',
+  CheckIn = 'check-in',
+  Sightseeing = 'sightseeing',
+  Restaurant = 'restaurant',
+}
 
 export enum HTTPError {
   Unauthorized = 401,

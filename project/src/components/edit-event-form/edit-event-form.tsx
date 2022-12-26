@@ -1,15 +1,31 @@
+import { useState } from 'react';
+import { TravelType } from '../../const';
+import { Point } from '../../types/point';
+
 type EditEventFormProps = {
+  point: Point;
   onCloseButtonClick: () => void;
 }
 
 function EditEventForm(props: EditEventFormProps): JSX.Element {
+  const [formData, setFormData] = useState<Point>({
+    basePrice: props.point.basePrice,
+    dateFrom: props.point.dateFrom,
+    dateTo: props.point.dateTo,
+    destination: props.point.destination,
+    id: props.point.id,
+    isFavorite: props.point.isFavorite,
+    offers: props.point.offers,
+    type: props.point.type,
+  });
+
   return (
     <form className="event event--edit" action="#" method="post">
       <header className="event__header">
         <div className="event__type-wrapper">
           <label className="event__type  event__type-btn" htmlFor="event-type-toggle-1">
             <span className="visually-hidden">Choose event type</span>
-            <img className="event__type-icon" width="17" height="17" src="img/icons/flight.png" alt="Event type icon" />
+            <img className="event__type-icon" width="17" height="17" src={ `img/icons/${ formData.type }.png` } alt="Event type icon" />
           </label>
           <input className="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox" />
 
@@ -18,47 +34,47 @@ function EditEventForm(props: EditEventFormProps): JSX.Element {
               <legend className="visually-hidden">Event type</legend>
 
               <div className="event__type-item">
-                <input id="event-type-taxi-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi" />
+                <input onChange={ () => setFormData({ ...formData, type: TravelType.Taxi }) } id="event-type-taxi-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi" checked={ formData.type === TravelType.Taxi } />
                 <label className="event__type-label  event__type-label--taxi" htmlFor="event-type-taxi-1">Taxi</label>
               </div>
 
               <div className="event__type-item">
-                <input id="event-type-bus-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="bus" />
+                <input onChange={ () => setFormData({ ...formData, type: TravelType.Bus }) } id="event-type-bus-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="bus" checked={ formData.type === TravelType.Bus } />
                 <label className="event__type-label  event__type-label--bus" htmlFor="event-type-bus-1">Bus</label>
               </div>
 
               <div className="event__type-item">
-                <input id="event-type-train-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="train" />
+                <input onChange={ () => setFormData({ ...formData, type: TravelType.Train }) } id="event-type-train-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="train" checked={ formData.type === TravelType.Train } />
                 <label className="event__type-label  event__type-label--train" htmlFor="event-type-train-1">Train</label>
               </div>
 
               <div className="event__type-item">
-                <input id="event-type-ship-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="ship" />
+                <input onChange={ () => setFormData({ ...formData, type: TravelType.Ship }) } id="event-type-ship-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="ship" checked={ formData.type === TravelType.Ship } />
                 <label className="event__type-label  event__type-label--ship" htmlFor="event-type-ship-1">Ship</label>
               </div>
 
               <div className="event__type-item">
-                <input id="event-type-drive-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="drive" />
+                <input onChange={ () => setFormData({ ...formData, type: TravelType.Drive }) } id="event-type-drive-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="drive" checked={ formData.type === TravelType.Drive } />
                 <label className="event__type-label  event__type-label--drive" htmlFor="event-type-drive-1">Drive</label>
               </div>
 
               <div className="event__type-item">
-                <input id="event-type-flight-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked />
+                <input onChange={ () => setFormData({ ...formData, type: TravelType.Flight }) } id="event-type-flight-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked={ formData.type === TravelType.Flight } />
                 <label className="event__type-label  event__type-label--flight" htmlFor="event-type-flight-1">Flight</label>
               </div>
 
               <div className="event__type-item">
-                <input id="event-type-check-in-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in" />
+                <input onChange={ () => setFormData({ ...formData, type: TravelType.CheckIn }) } id="event-type-check-in-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in" checked={ formData.type === TravelType.CheckIn } />
                 <label className="event__type-label  event__type-label--check-in" htmlFor="event-type-check-in-1">Check-in</label>
               </div>
 
               <div className="event__type-item">
-                <input id="event-type-sightseeing-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing" />
+                <input onChange={ () => setFormData({ ...formData, type: TravelType.Sightseeing }) } id="event-type-sightseeing-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing" checked={ formData.type === TravelType.Sightseeing } />
                 <label className="event__type-label  event__type-label--sightseeing" htmlFor="event-type-sightseeing-1">Sightseeing</label>
               </div>
 
               <div className="event__type-item">
-                <input id="event-type-restaurant-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant" />
+                <input onChange={ () => setFormData({ ...formData, type: TravelType.Restaurant }) } id="event-type-restaurant-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant" checked={ formData.type === TravelType.Restaurant } />
                 <label className="event__type-label  event__type-label--restaurant" htmlFor="event-type-restaurant-1">Restaurant</label>
               </div>
             </fieldset>

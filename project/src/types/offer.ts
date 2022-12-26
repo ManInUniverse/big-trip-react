@@ -1,4 +1,4 @@
-import { TRAVEL_TYPES } from '../const';
+import { TravelType } from '../const';
 
 export type Offer = {
   id: number;
@@ -9,5 +9,3 @@ export type Offer = {
 export type Offers = Offer[];
 
 export type OffersByType = Array<{ type: TravelType; offers: Offers }>
-
-export type TravelType = typeof TRAVEL_TYPES[number];
