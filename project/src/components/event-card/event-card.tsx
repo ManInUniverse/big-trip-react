@@ -2,6 +2,7 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { getDestinations, getOffersByType } from '../../store/selectors';
 import { Point } from '../../types/point';
 import { formatDateTime, getDestinationNameById, getPointDuration, getSelectedOffers } from '../../utils';
+
 import EditEventForm from '../edit-event-form/edit-event-form';
 
 type EventCardProps = {

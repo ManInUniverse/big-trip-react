@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TravelType } from '../../const';
 import { Point } from '../../types/point';
+import { formatDateTime } from '../../utils';
+
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 type EditEventFormProps = {
   point: Point;
@@ -8,6 +12,38 @@ type EditEventFormProps = {
 }
 
 function EditEventForm(props: EditEventFormProps): JSX.Element {
+  const dateFromInputRef = useRef(null);
+  const dateToInputRef = useRef(null);
+
+  const dateFromPickerRef = useRef<flatpickr.Instance>();
+  const dateToPickerRef = useRef<flatpickr.Instance>();
+
+  useEffect(() => {
+    const dateFromInput = dateFromInputRef.current;
+    const dateToInput = dateToInputRef.current;
+
+    if (dateFromInput && dateToInput) {
+      dateFromPickerRef.current = flatpickr(dateFromInput, {
+        enableTime: true,
+        dateFormat: 'd/m/y H:i',
+        defaultDate: props.point.dateFrom,
+        onChange: ([userDate]) => setFormData((prev) => ({ ...prev, dateFrom: userDate.toISOString() })),
+      });
+      dateToPickerRef.current = flatpickr(dateToInput, {
+        enableTime: true,
+        dateFormat: 'd/m/y H:i',
+        defaultDate: props.point.dateTo,
+        onChange: ([userDate]) => setFormData((prev) => ({ ...prev, dateTo: userDate.toISOString() })),
+      });
+    }
+
+    return () => {
+      dateFromPickerRef.current?.destroy();
+      dateToPickerRef.current?.destroy();
+    };
+  }, [props.point.dateFrom, props.point.dateTo]);
+
+  const [isEventTypeListShown, setIsEventTypeListShown] = useState(false);
   const [formData, setFormData] = useState<Point>({
     basePrice: props.point.basePrice,
     dateFrom: props.point.dateFrom,
@@ -27,54 +63,54 @@ function EditEventForm(props: EditEventFormProps): JSX.Element {
             <span className="visually-hidden">Choose event type</span>
             <img className="event__type-icon" width="17" height="17" src={ `img/icons/${ formData.type }.png` } alt="Event type icon" />
           </label>
-          <input className="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox" />
+          <input onChange={ () => setIsEventTypeListShown((prev) => !prev) } className="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox" checked={ isEventTypeListShown } />
 
           <div className="event__type-list">
             <fieldset className="event__type-group">
               <legend className="visually-hidden">Event type</legend>
 
               <div className="event__type-item">
-                <input onChange={ () => setFormData({ ...formData, type: TravelType.Taxi }) } id="event-type-taxi-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi" checked={ formData.type === TravelType.Taxi } />
+                <input onChange={ () => { setFormData({ ...formData, type: TravelType.Taxi }); setIsEventTypeListShown(false); } } id="event-type-taxi-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi" checked={ formData.type === TravelType.Taxi } />
                 <label className="event__type-label  event__type-label--taxi" htmlFor="event-type-taxi-1">Taxi</label>
               </div>
 
               <div className="event__type-item">
-                <input onChange={ () => setFormData({ ...formData, type: TravelType.Bus }) } id="event-type-bus-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="bus" checked={ formData.type === TravelType.Bus } />
+                <input onChange={ () => { setFormData({ ...formData, type: TravelType.Bus }); setIsEventTypeListShown(false); } } id="event-type-bus-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="bus" checked={ formData.type === TravelType.Bus } />
                 <label className="event__type-label  event__type-label--bus" htmlFor="event-type-bus-1">Bus</label>
               </div>
 
               <div className="event__type-item">
-                <input onChange={ () => setFormData({ ...formData, type: TravelType.Train }) } id="event-type-train-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="train" checked={ formData.type === TravelType.Train } />
+                <input onChange={ () => { setFormData({ ...formData, type: TravelType.Train }); setIsEventTypeListShown(false); } } id="event-type-train-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="train" checked={ formData.type === TravelType.Train } />
                 <label className="event__type-label  event__type-label--train" htmlFor="event-type-train-1">Train</label>
               </div>
 
               <div className="event__type-item">
-                <input onChange={ () => setFormData({ ...formData, type: TravelType.Ship }) } id="event-type-ship-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="ship" checked={ formData.type === TravelType.Ship } />
+                <input onChange={ () => { setFormData({ ...formData, type: TravelType.Ship }); setIsEventTypeListShown(false); } } id="event-type-ship-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="ship" checked={ formData.type === TravelType.Ship } />
                 <label className="event__type-label  event__type-label--ship" htmlFor="event-type-ship-1">Ship</label>
               </div>
 
               <div className="event__type-item">
-                <input onChange={ () => setFormData({ ...formData, type: TravelType.Drive }) } id="event-type-drive-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="drive" checked={ formData.type === TravelType.Drive } />
+                <input onChange={ () => { setFormData({ ...formData, type: TravelType.Drive }); setIsEventTypeListShown(false); } } id="event-type-drive-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="drive" checked={ formData.type === TravelType.Drive } />
                 <label className="event__type-label  event__type-label--drive" htmlFor="event-type-drive-1">Drive</label>
               </div>
 
               <div className="event__type-item">
-                <input onChange={ () => setFormData({ ...formData, type: TravelType.Flight }) } id="event-type-flight-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked={ formData.type === TravelType.Flight } />
+                <input onChange={ () => { setFormData({ ...formData, type: TravelType.Flight }); setIsEventTypeListShown(false); } } id="event-type-flight-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked={ formData.type === TravelType.Flight } />
                 <label className="event__type-label  event__type-label--flight" htmlFor="event-type-flight-1">Flight</label>
               </div>
 
               <div className="event__type-item">
-                <input onChange={ () => setFormData({ ...formData, type: TravelType.CheckIn }) } id="event-type-check-in-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in" checked={ formData.type === TravelType.CheckIn } />
+                <input onChange={ () => { setFormData({ ...formData, type: TravelType.CheckIn }); setIsEventTypeListShown(false); } } id="event-type-check-in-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in" checked={ formData.type === TravelType.CheckIn } />
                 <label className="event__type-label  event__type-label--check-in" htmlFor="event-type-check-in-1">Check-in</label>
               </div>
 
               <div className="event__type-item">
-                <input onChange={ () => setFormData({ ...formData, type: TravelType.Sightseeing }) } id="event-type-sightseeing-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing" checked={ formData.type === TravelType.Sightseeing } />
+                <input onChange={ () => { setFormData({ ...formData, type: TravelType.Sightseeing }); setIsEventTypeListShown(false); } } id="event-type-sightseeing-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing" checked={ formData.type === TravelType.Sightseeing } />
                 <label className="event__type-label  event__type-label--sightseeing" htmlFor="event-type-sightseeing-1">Sightseeing</label>
               </div>
 
               <div className="event__type-item">
-                <input onChange={ () => setFormData({ ...formData, type: TravelType.Restaurant }) } id="event-type-restaurant-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant" checked={ formData.type === TravelType.Restaurant } />
+                <input onChange={ () => { setFormData({ ...formData, type: TravelType.Restaurant }); setIsEventTypeListShown(false); } } id="event-type-restaurant-1" className="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant" checked={ formData.type === TravelType.Restaurant } />
                 <label className="event__type-label  event__type-label--restaurant" htmlFor="event-type-restaurant-1">Restaurant</label>
               </div>
             </fieldset>
@@ -83,9 +119,9 @@ function EditEventForm(props: EditEventFormProps): JSX.Element {
 
         <div className="event__field-group  event__field-group--destination">
           <label className="event__label  event__type-output" htmlFor="event-destination-1">
-            Flight
+            { formData.type }
           </label>
-          <input className="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="Chamonix" list="destination-list-1" />
+          <input className="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value={ formData.destination } list="destination-list-1" />
           <datalist id="destination-list-1">
             <option value="Amsterdam"></option>
             <option value="Geneva"></option>
@@ -95,10 +131,10 @@ function EditEventForm(props: EditEventFormProps): JSX.Element {
 
         <div className="event__field-group  event__field-group--time">
           <label className="visually-hidden" htmlFor="event-start-time-1">From</label>
-          <input className="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="18/03/19 12:25" />
+          <input ref={ dateFromInputRef } className="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value={ formatDateTime(formData.dateFrom, 'DD/MM/YY HH:mm') } />
           &mdash;
           <label className="visually-hidden" htmlFor="event-end-time-1">To</label>
-          <input className="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="18/03/19 13:35" />
+          <input ref={ dateToInputRef } className="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value={ formatDateTime(formData.dateTo, 'DD/MM/YY HH:mm') } />
         </div>
 
         <div className="event__field-group  event__field-group--price">
