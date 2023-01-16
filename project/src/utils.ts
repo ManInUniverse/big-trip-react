@@ -82,6 +82,17 @@ export const getDestinationNameById = (
   return destinationName;
 };
 
+export const getDestinationDescriptionById = (
+  destinations: Destinations,
+  destinationId: Point['destination']
+) => {
+  const destinationDescription = destinations.find((destination) => destination.id === destinationId)?.description;
+  if (!destinationDescription) {
+    return 'unknown';
+  }
+  return destinationDescription;
+};
+
 export const getSelectedOffers = (
   offersByType: OffersByType,
   type: TravelType,

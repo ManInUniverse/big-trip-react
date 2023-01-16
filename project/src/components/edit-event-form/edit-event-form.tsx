@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { TravelType } from '../../const';
 import { Point } from '../../types/point';
-import { formatDateTime } from '../../utils';
+import { formatDateTime, getDestinationDescriptionById, getDestinationNameById } from '../../utils';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { getDestinations } from '../../store/selectors';
 
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
@@ -12,6 +14,8 @@ type EditEventFormProps = {
 }
 
 function EditEventForm(props: EditEventFormProps): JSX.Element {
+  const destinations = useAppSelector(getDestinations);
+
   const dateFromInputRef = useRef(null);
   const dateToInputRef = useRef(null);
 
@@ -54,6 +58,12 @@ function EditEventForm(props: EditEventFormProps): JSX.Element {
     offers: props.point.offers,
     type: props.point.type,
   });
+  const [destinationInputValue, setDestinationInputValue] = useState(getDestinationNameById(destinations, formData.destination));
+
+  const onDestinationChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const datalist = evt.target.list;
+
+  };
 
   return (
     <form className="event event--edit" action="#" method="post">
@@ -121,11 +131,11 @@ function EditEventForm(props: EditEventFormProps): JSX.Element {
           <label className="event__label  event__type-output" htmlFor="event-destination-1">
             { formData.type }
           </label>
-          <input className="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value={ formData.destination } list="destination-list-1" />
+          <input onChange={ (evt) => setDestinationInputValue(evt.target.value) } className="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value={ destinationInputValue } list="destination-list-1" />
           <datalist id="destination-list-1">
-            <option value="Amsterdam"></option>
-            <option value="Geneva"></option>
-            <option value="Chamonix"></option>
+            {
+              destinations.map((destination) => <option value={ destination.name } key={ destination.id }></option>)
+            }
           </datalist>
         </div>
 
@@ -142,7 +152,7 @@ function EditEventForm(props: EditEventFormProps): JSX.Element {
             <span className="visually-hidden">Price</span>
             &euro;
           </label>
-          <input className="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="160" />
+          <input onChange={ (evt) => setFormData({ ...formData, basePrice: Number(evt.target.value) }) } className="event__input  event__input--price" id="event-price-1" type="number" min="1" max="9999999" name="event-price" value={ formData.basePrice } />
         </div>
 
         <button className="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -205,7 +215,7 @@ function EditEventForm(props: EditEventFormProps): JSX.Element {
 
         <section className="event__section  event__section--destination">
           <h3 className="event__section-title  event__section-title--destination">Destination</h3>
-          <p className="event__destination-description">{'Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it\'s renowned for its skiing.'}</p>
+          <p className="event__destination-description">{ getDestinationDescriptionById(destinations, formData.destination) }</p>
         </section>
       </section>
     </form>
